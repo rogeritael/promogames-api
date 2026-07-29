@@ -1,0 +1,16 @@
+spring:
+    application:
+        name: promogames
+
+    datasource:
+        url: jdbc:postgresql://localhost:5432/promogames
+        username: postgres
+        password: 13240
+        driver-class-name: org.postgresql.Driver
+
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        show-sql: true
+
+    flyway:
+        enabled: true
