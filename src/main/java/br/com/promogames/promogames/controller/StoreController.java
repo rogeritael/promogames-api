@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/store")
@@ -35,4 +36,29 @@ public class StoreController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<StoreResponse> findById(@PathVariable Long id){
+        Optional<Store> optStore = storeService.findById(id);
+
+        return optStore
+            .map(store -> ResponseEntity.ok(StoreMapper.toStoreResponse(store)))
+            .orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id){
+        Optional<Store> optStore = storeService.findById(id);
+
+        if(optStore.isPresent()){
+            storeService.deleteById(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build(
+
+            );
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+
 }

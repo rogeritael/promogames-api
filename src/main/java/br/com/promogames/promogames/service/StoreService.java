@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -21,7 +22,11 @@ public class StoreService {
         return storeRepository.findAll();
     }
 
-    public void delete(Long id){
+    public Optional<Store> findById(Long id){
+        return storeRepository.findById(id);
+    }
+
+    public void deleteById(Long id){
         storeRepository.deleteById(id);
     }
 }
