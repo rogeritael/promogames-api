@@ -1,15 +1,14 @@
 package br.com.promogames.promogames.controller;
 
+import br.com.promogames.promogames.controller.request.StoreRequest;
 import br.com.promogames.promogames.controller.response.StoreResponse;
 import br.com.promogames.promogames.entity.Store;
 import br.com.promogames.promogames.mapper.StoreMapper;
 import br.com.promogames.promogames.service.StoreService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,9 +21,18 @@ public class StoreController {
     @GetMapping()
     public ResponseEntity<List<StoreResponse>> findAll(){
         List<StoreResponse> stores = storeService.findAll().stream()
-                .map(store -> StoreMapper.toStoreResponse(store))
+                .map(StoreMapper::toStoreResponse)
                 .toList();
 
         return ResponseEntity.ok(stores);
+    }
+
+    @PostMapping()
+    public ResponseEntity<StoreResponse> save(@RequestBody StoreRequest request){
+        Store newStore = storeService.save(StoreMapper.toStore(request));
+
+        StoreResponse response = StoreMapper.toStoreResponse(newStore);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }
