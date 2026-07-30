@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class StoreService {
-    private StoreRepository storeRepository;
+    private final StoreRepository storeRepository;
 
     public Store save(Store store){
         return storeRepository.save(store);
