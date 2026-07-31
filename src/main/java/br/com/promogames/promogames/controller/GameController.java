@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
@@ -43,5 +44,16 @@ public class GameController {
         List<GameResponse> games = gameService.findAll().stream().map(game -> GameMapper.toGameResponse(game)).toList();
 
         return ResponseEntity.ok(games);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<GameResponse> findById(@PathVariable UUID id){
+        Optional<Game> foundGame = gameService.findById(id);
+
+        if(foundGame.isPresent()){
+            return ResponseEntity.ok(GameMapper.toGameResponse(foundGame.get()));
+        }
+
+        return ResponseEntity.notFound().build();
     }
 }
