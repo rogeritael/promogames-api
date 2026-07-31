@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 @RestController
 @RequestMapping("/api/v1/store")
@@ -60,5 +61,19 @@ public class StoreController {
         return ResponseEntity.notFound().build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<StoreResponse> updateStore(@PathVariable Long id, @RequestBody StoreRequest request){
+        Optional<Store> foundStore = storeService.findById(id);
 
+        if (foundStore.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Store storeToUpdate = foundStore.get();
+        storeToUpdate.setName(request.name());
+
+        Store updatedStore = storeService.save(storeToUpdate);
+
+        return ResponseEntity.ok(StoreMapper.toStoreResponse(updatedStore));
+    }
 }
