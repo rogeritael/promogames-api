@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,6 +25,14 @@ public class OfferService {
 
     public List<Offer> findAll(){
         return offerRepository.findAll();
+    }
+
+    public List<Offer> findActive(){
+        LocalDateTime currentDate = LocalDateTime.now();
+
+        List<Offer> activeOffers = offerRepository.findAll().stream().filter(offer -> offer.getEndsAt().isEqual(currentDate) || offer.getEndsAt().isAfter(currentDate)).toList();
+
+        return activeOffers;
     }
 
     public Offer save(Offer offer, UUID gameId){

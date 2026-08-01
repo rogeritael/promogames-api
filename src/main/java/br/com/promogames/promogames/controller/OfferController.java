@@ -28,6 +28,13 @@ public class OfferController {
         return ResponseEntity.ok(mountedOffer);
     }
 
+    @GetMapping("/active")
+    public ResponseEntity<List<OfferResponse>> findActive(){
+        List<Offer> filteredOffer = offerService.findActive();
+
+        return ResponseEntity.ok(filteredOffer.stream().map(offer -> OfferMapper.toOfferResponse(offer)).toList());
+    }
+
     @PostMapping()
     public ResponseEntity<OfferResponse> save(@RequestBody OfferRequest request){
         Offer savedOffer = offerService.save(OfferMapper.ToOffer(request), request.gameId());
