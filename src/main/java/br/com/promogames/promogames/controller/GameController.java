@@ -57,6 +57,14 @@ public class GameController {
         return ResponseEntity.notFound().build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<GameResponse> update(@PathVariable UUID id, @RequestBody GameRequest request){
+
+        return gameService.update(id, request)
+                .map(game -> ResponseEntity.ok(GameMapper.toGameResponse(game)))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id){
         Optional<Game> foundGame = gameService.findById(id);
