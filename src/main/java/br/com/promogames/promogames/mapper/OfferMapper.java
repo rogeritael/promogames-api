@@ -9,7 +9,6 @@ import lombok.experimental.UtilityClass;
 public class OfferMapper {
     public static Offer ToOffer(OfferRequest request){
         return Offer.builder()
-                .game(request.game())
                 .originalPrice(request.originalPrice())
                 .currentPrice(request.currentPrice())
                 .startsAt(request.startsAt())
