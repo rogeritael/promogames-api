@@ -56,4 +56,17 @@ public class GameController {
 
         return ResponseEntity.notFound().build();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id){
+        Optional<Game> foundGame = gameService.findById(id);
+
+        if(foundGame.isPresent()){
+            gameService.deleteById(foundGame.get().getId());
+
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        return ResponseEntity.notFound().build();
+    }
 }

@@ -25,4 +25,8 @@ public class GameService {
     public Optional<Game> findById(UUID id){
         return gameRepository.findById(id);
     }
+
+    public void deleteById(UUID id){
+        gameRepository.deleteById(id);
+    }
 }
