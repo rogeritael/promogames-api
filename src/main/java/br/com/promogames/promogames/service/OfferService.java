@@ -2,6 +2,7 @@ package br.com.promogames.promogames.service;
 
 import br.com.promogames.promogames.entity.Game;
 import br.com.promogames.promogames.entity.Offer;
+import br.com.promogames.promogames.repository.GameRepository;
 import br.com.promogames.promogames.repository.OfferRepository;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +20,7 @@ import java.util.UUID;
 public class OfferService {
     private final OfferRepository offerRepository;
     private final GameService gameService;
+    private final GameRepository gameRepository;
 
     public List<Offer> findAll(){
         return offerRepository.findAll();
@@ -35,5 +37,13 @@ public class OfferService {
         offer.setGame(foundGame);
 
         return offerRepository.save(offer);
+    }
+
+    public Optional<Offer> findById(Long id){
+        return offerRepository.findById(id);
+    }
+
+    public void delete(Long id){
+        offerRepository.deleteById(id);
     }
 }
