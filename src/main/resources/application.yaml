@@ -14,3 +14,8 @@ spring:
 
     flyway:
         enabled: true
+
+    security:
+        user:
+            name: ${ADMIN_USERNAME}
+            password: ${ADMIN_PASSWORD}
