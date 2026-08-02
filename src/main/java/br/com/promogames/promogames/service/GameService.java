@@ -19,6 +19,12 @@ public class GameService {
     private final GameRepository gameRepository;
     private final StoreRepository storeRepository;
 
+    private String normalize(String value) {
+        return value == null || value.isBlank()
+                ? null
+                : value.trim();
+    }
+
     public List<Game> findAll(){
         return gameRepository.findAll();
     }
@@ -61,5 +67,13 @@ public class GameService {
         gameRepository.save(updatedGame);
 
         return Optional.of(updatedGame);
+    }
+
+    public List<Game> search(String title, String store, String platform){
+        return gameRepository.search(
+                normalize(title),
+                normalize(store),
+                normalize(platform)
+        );
     }
 }

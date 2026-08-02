@@ -57,6 +57,30 @@ public class GameController {
         return ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<GameResponse>> search(
+        @RequestParam(required = false) String title,
+        @RequestParam(required = false) String store,
+        @RequestParam(required = false) String platform
+    ){
+        boolean isFilterEmpty =
+                (title == null || title.isBlank()) &&
+                        (store == null || store.isBlank()) &&
+                        (platform == null || platform.isBlank());
+
+        if (isFilterEmpty) {
+            return ResponseEntity.ok(List.of());
+        }
+
+        List<GameResponse> games = gameService
+                .search(title, store, platform)
+                .stream()
+                .map(GameMapper::toGameResponse)
+                .toList();
+
+        return ResponseEntity.ok(games);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<GameResponse> update(@PathVariable UUID id, @RequestBody GameRequest request){
 
