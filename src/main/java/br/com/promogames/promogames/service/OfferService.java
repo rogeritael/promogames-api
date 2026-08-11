@@ -56,14 +56,7 @@ public class OfferService {
         offerRepository.deleteById(id);
     }
 
-    public List<Offer> search(
-            String title,
-            List<String> stores,
-            List<String> platforms
-    ) {
-        String[] storeArray = stores != null ? stores.toArray(new String[0]) : null;
-        String[] platformArray = platforms != null ? platforms.toArray(new String[0]) : null;
-
-        return offerRepository.search(title, storeArray, platformArray);
+    public List<Offer> search(String title, String store, String platform){
+        return offerRepository.search(title, store, platform);
     }
 }
