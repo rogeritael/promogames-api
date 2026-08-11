@@ -61,4 +61,18 @@ public class OfferController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<OfferResponse>> search(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String store,
+            @RequestParam(required = false) String platform
+    ) {
+        List<OfferResponse> offers = offerService
+                .search(title, store, platform)
+                .stream()
+                .map(OfferMapper::toOfferResponse)
+                .toList();
+
+        return ResponseEntity.ok(offers);
+    }
 }

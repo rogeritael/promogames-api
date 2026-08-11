@@ -3,9 +3,9 @@ spring:
         name: promogames
 
     datasource:
-        url: jdbc:postgresql://${PG_HOST}:${PG_PORT}/${PG_DATABASE}
-        username: ${PG_USER}
-        password: ${PG_PASSWORD}
+        url: jdbc:postgresql://localhost:5432/promogames
+        username: postgres
+        password: 13240
         driver-class-name: org.postgresql.Driver
 
     jpa:
@@ -17,5 +17,5 @@ spring:
 
     security:
         user:
-            name: ${ADMIN_USERNAME}
-            password: ${ADMIN_PASSWORD}
+            name: draconic_7000
+            password: xRS12eghx-)3

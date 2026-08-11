@@ -55,4 +55,8 @@ public class OfferService {
     public void delete(Long id){
         offerRepository.deleteById(id);
     }
+
+    public List<Offer> search(String title, String store, String platform){
+        return offerRepository.search(title, store, platform);
+    }
 }
