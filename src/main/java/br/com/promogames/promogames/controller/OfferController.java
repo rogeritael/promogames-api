@@ -64,11 +64,11 @@ public class OfferController {
     @GetMapping("/search")
     public ResponseEntity<List<OfferResponse>> search(
             @RequestParam(required = false) String title,
-            @RequestParam(required = false) String store,
-            @RequestParam(required = false) String platform
+            @RequestParam(required = false) List<String> stores,
+            @RequestParam(required = false) List<String> platforms
     ) {
         List<OfferResponse> offers = offerService
-                .search(title, store, platform)
+                .search(title, stores, platforms)
                 .stream()
                 .map(OfferMapper::toOfferResponse)
                 .toList();

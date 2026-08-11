@@ -16,20 +16,20 @@ public interface OfferRepository extends JpaRepository<Offer, Long> {
             WHERE (:title IS NULL
                    OR LOWER(g.title) LIKE LOWER(CONCAT('%', :title, '%')))
 
-              AND (:store IS NULL
-                   OR LOWER(s.name) = LOWER(:store))
+              AND (:stores IS NULL
+                   OR LOWER(s.name) IN (:stores))
 
-              AND (:platform IS NULL
+              AND (:platforms IS NULL
                    OR EXISTS (
                        SELECT 1
                        FROM unnest(g.platforms) p
-                       WHERE LOWER(p) = LOWER(:platform)
+                       WHERE LOWER(p) IN (:platforms)
                    ))
             """,
             nativeQuery = true)
     List<Offer> search(
             @Param("title") String title,
-            @Param("store") String store,
-            @Param("platform") String platform
+            @Param("stores") List<String> stores,
+            @Param("platforms") List<String> platforms
     );
 }

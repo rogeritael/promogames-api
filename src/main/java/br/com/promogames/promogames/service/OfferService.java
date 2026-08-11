@@ -56,7 +56,9 @@ public class OfferService {
         offerRepository.deleteById(id);
     }
 
-    public List<Offer> search(String title, String store, String platform){
-        return offerRepository.search(title, store, platform);
+    public List<Offer> search(String title,
+                              List<String> stores,
+                              List<String> platforms){
+        return offerRepository.search(title, stores, platforms);
     }
 }
