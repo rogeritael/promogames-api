@@ -57,6 +57,8 @@ public class OfferService {
     }
 
     public List<Offer> search(String title, String store, String platform){
-        return offerRepository.search(title, store, platform);
+        LocalDateTime currentDate = LocalDateTime.now();
+
+        return offerRepository.search(title, store, platform).stream().filter(offer -> offer.getEndsAt().isEqual(currentDate) || offer.getEndsAt().isAfter(currentDate)).toList();
     }
 }
