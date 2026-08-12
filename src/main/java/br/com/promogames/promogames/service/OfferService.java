@@ -5,8 +5,6 @@ import br.com.promogames.promogames.entity.Offer;
 import br.com.promogames.promogames.repository.GameRepository;
 import br.com.promogames.promogames.repository.OfferRepository;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,6 +13,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Service
 @AllArgsConstructor
@@ -60,5 +61,13 @@ public class OfferService {
         LocalDateTime currentDate = LocalDateTime.now();
 
         return offerRepository.search(title, store, platform).stream().filter(offer -> offer.getEndsAt().isEqual(currentDate) || offer.getEndsAt().isAfter(currentDate)).toList();
+    }
+
+    public Page<Offer> findActiveByPage(int page, int size) {
+        LocalDateTime currentDate = LocalDateTime.now();
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        return offerRepository.findActive(currentDate, pageable);
     }
 }

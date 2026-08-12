@@ -7,6 +7,7 @@ import br.com.promogames.promogames.mapper.OfferMapper;
 import br.com.promogames.promogames.repository.GameRepository;
 import br.com.promogames.promogames.service.OfferService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,11 +30,16 @@ public class OfferController {
     }
 
     @GetMapping("/active")
-    public ResponseEntity<List<OfferResponse>> findActive(){
-        List<Offer> filteredOffer = offerService.findActive();
+    public ResponseEntity<List<OfferResponse>> findActive(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Page<OfferResponse> offers = offerService.findActiveByPage(page, size)
+                .map(OfferMapper::toOfferResponse);
 
-        return ResponseEntity.ok(filteredOffer.stream().map(offer -> OfferMapper.toOfferResponse(offer)).toList());
+        return ResponseEntity.ok(offers.getContent());
     }
+
 
     @PostMapping()
     public ResponseEntity<OfferResponse> save(@RequestBody OfferRequest request){
